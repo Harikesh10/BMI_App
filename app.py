@@ -17,13 +17,43 @@ bmi_category_mapping = {
 }
 
 # Suggested diet plans
-diet_plans = {
-    "Extremely Weak": "High-calorie diet: Include nuts, dairy, and protein-rich foods.",
-    "Weak": "Balanced meals with extra calories. Focus on healthy fats.",
-    "Normal": "Maintain a balanced diet with a mix of carbs, proteins, and fats.",
-    "Overweight": "Low-calorie diet. Avoid sugary and fried foods.",
-    "Obesity": "High-fiber and low-carb meals. Control portion sizes.",
-    "Extreme Obesity": "Consult a dietitian for a highly personalized plan."
+detailed_diet_plans = {
+    "Extremely Weak": {
+        "Vegetarian": "Paneer tikka, dal makhani, avocado toast, nuts, and seeds.",
+        "Non-Vegetarian": "Chicken curry, salmon, eggs with whole-grain toast, and yogurt smoothies.",
+        "Vegan": "Peanut butter on gluten-free bread, quinoa bowls with roasted vegetables, and almond milk smoothies.",
+        "Gluten-Free": "Brown rice with beans, sweet potatoes, gluten-free pasta with pesto."
+    },
+    "Weak": {
+        "Vegetarian": "Vegetable pulao, cheese sandwiches, Greek salad with olives, and milkshakes.",
+        "Non-Vegetarian": "Grilled chicken, scrambled eggs with veggies, and turkey sandwiches.",
+        "Vegan": "Chickpea curry with coconut milk, tofu stir-fry, and almond butter smoothies.",
+        "Gluten-Free": "Lentil soup, baked potatoes with olive oil, and roasted zucchini."
+    },
+    "Normal": {
+        "Vegetarian": "Spinach paratha, mixed vegetable curry, and fruit salads.",
+        "Non-Vegetarian": "Grilled fish, chicken salads, and omelets with whole-grain toast.",
+        "Vegan": "Buddha bowls with quinoa, sautéed kale, and tempeh wraps.",
+        "Gluten-Free": "Quinoa salad, baked salmon with asparagus, and roasted chickpeas."
+    },
+    "Overweight": {
+        "Vegetarian": "Cucumber and carrot salads, poha, and steamed vegetables.",
+        "Non-Vegetarian": "Grilled chicken breast, boiled eggs, and fish soups.",
+        "Vegan": "Zucchini noodles with tomato sauce, smoothies with almond milk, and tofu salads.",
+        "Gluten-Free": "Cauliflower rice, lentil patties, and gluten-free vegetable soups."
+    },
+    "Obesity": {
+        "Vegetarian": "Lentil soups, steamed broccoli, and salads with olive oil dressing.",
+        "Non-Vegetarian": "Baked salmon, boiled chicken with green beans, and tuna salads.",
+        "Vegan": "Spinach and chickpea curry, roasted Brussels sprouts, and avocado salads.",
+        "Gluten-Free": "Sweet potato mash, grilled eggplant, and gluten-free zucchini noodles."
+    },
+    "Extreme Obesity": {
+        "Vegetarian": "Small portions of dals, low-oil vegetable soups, and sprout salads.",
+        "Non-Vegetarian": "Grilled chicken with lemon, steamed fish, and boiled eggs.",
+        "Vegan": "Steamed edamame, kale chips, and roasted vegetables.",
+        "Gluten-Free": "Gluten-free crackers, boiled quinoa, and roasted pumpkin."
+    }
 }
 
 # Suggested exercises
@@ -82,10 +112,15 @@ def main():
             else:
                 st.success(f"Predicted BMI Category: {result}")
 
-                # Display diet and exercise plan
+                # Display detailed diet plan
                 st.markdown("### Suggested Diet Plan")
-                st.info(diet_plans[result])
+                dietary_preference = st.selectbox("Dietary Preference", ["Vegetarian", "Non-Vegetarian", "Vegan", "Gluten-Free"])
+                if dietary_preference in detailed_diet_plans[result]:
+                    st.info(detailed_diet_plans[result][dietary_preference])
+                else:
+                    st.info("No specific plan available for this preference.")
 
+                # Display exercise plan
                 st.markdown("### Suggested Exercises")
                 st.info(exercise_plans[result])
         else:
@@ -97,13 +132,6 @@ def main():
     # Health Tips
     with st.sidebar.expander("Daily Health Tip"):
         st.write(daily_health_tip())
-
-    # Diet Plan
-    with st.sidebar.expander("Personalized Diet Plan"):
-        dietary_preference = st.selectbox("Dietary Preference", ["No Preference", "Vegetarian", "Vegan", "Gluten-Free"])
-        st.write(f"Your selected preference: {dietary_preference}")
-        if dietary_preference != "No Preference":
-            st.write("Contact a dietitian for more personalized options.")
 
     # Exercise Tracking
     with st.sidebar.expander("Exercise Tracker"):
